@@ -12,6 +12,6 @@ public interface Loader {
     void sendConsole(String... messages);
 
     @SneakyThrows
-    void updater(long l, long l1, Runnable ...runnables);
+    void updater(long l1, Runnable ...runnables);
 
 }

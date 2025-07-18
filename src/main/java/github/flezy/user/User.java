@@ -20,7 +20,7 @@ public class User {
 
     private int seconds = 0;
 
-    private  Updater.DamageLevel stageDamage = Updater.DamageLevel.NONE;
+    private  Updater.DamageLevel stageDamage;
 
     public User(Player player){
         this.id = player.getUniqueId();
@@ -28,6 +28,7 @@ public class User {
 
         new Updater().run();
 
+        this.stageDamage = getStageDamage();
         list.add(this);
 
     }

@@ -1,6 +1,7 @@
 package github.flezy;
 
 import github.flezy.listeners.PlayerListeners;
+import github.flezy.listeners.SoupListener;
 import github.flezy.timer.Updater;
 import github.flezy.util.loader.Loader;
 import lombok.Getter;
@@ -19,8 +20,8 @@ public class DamagePlugin extends JavaPlugin implements Loader {
     @Override
     public void onEnable() {
         setInstance(this);
-        loadEvent(new PlayerListeners());
-        updater(20L, 20L, new Updater());
+        loadEvent(new PlayerListeners(), new SoupListener());
+        updater(20L, new Updater());
 
         Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("§aReniciando"));
     }
@@ -45,9 +46,9 @@ public class DamagePlugin extends JavaPlugin implements Loader {
     }
 
     @Override
-    public void updater(long l, long l1, Runnable... runnables) {
+    public void updater( long l1, Runnable... runnables) {
         for(Runnable runnable : runnables)
-            Bukkit.getScheduler().runTaskTimer(this, runnable, l, l1);
+            Bukkit.getScheduler().runTaskTimer(this, runnable, 20L, l1);
     }
 
 

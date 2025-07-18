@@ -41,17 +41,25 @@ public class Updater extends BukkitRunnable {
         Block below = player.getLocation().subtract(0, 1, 0).getBlock();
         User user = User.of(player.getUniqueId());
 
-//        double damage = user.getStageDamage().getDamage() + random.nextDouble() * 1.5;
+        if(user == null) return;
 
-        if (below.getType() == Material.DIAMOND_BLOCK) {
-            user.setStageDamage(DamageLevel.HARD);
-            player.damage(user.getStageDamage().getDamage());
+        Arrays.stream(DamageLevel.values()).forEach(damageLevel -> {
+            if(damageLevel.getMaterial() == null) return;
 
-        }else if (below.getType() == Material.EMERALD_BLOCK){
-            user.setStageDamage(DamageLevel.EASY);
-            player.damage(user.getStageDamage().getDamage());
+            double criticalDamage = damageLevel.getDamage();
 
-        }
+            if(below.getType() == damageLevel.getMaterial()){
+                user.setStageDamage(damageLevel);
+
+                if(random.nextDouble() <= 0.20){
+                    criticalDamage+= random.nextDouble();
+                    new Utils().sendActionBar(player, "§aTempo: " + user.getSeconds() + " §c§lCRITICAL");
+                }
+
+                player.damage(damageLevel.getDamage());
+//                System.out.print("LEVEL: " + damageLevel.getName() + " DAMAGE: " + damageLevel.getDamage() + " BLOCKTYPE: " + damageLevel.getMaterial().name());
+            }
+        });
 
     }
 
